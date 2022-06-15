@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  name                String?
+  email               String    @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+}
+
+model Cliente {
+  id       Int       @id @default(autoincrement())
+  name     String
+  birthday DateTime?
+}
+
+model Produto {
+  id       Int     @id @default(autoincrement())
+  name     String
+  category String?
+  quantity Int
+  cost     Decimal
+}
+
+model Pedido {
+  id            Int      @id @default(autoincrement())
+  id_cliente    Int
+  order_date    DateTime
+  delivery_date DateTime
+  status        String?
+  cost          Decimal
+}
+
+model produto_pedido {
+  id         Int     @id @default(autoincrement())
+  id_pedido  Int
+  id_produto Int
+  quantity   Int
+  cost       Decimal
+}
